@@ -29,8 +29,16 @@ app.get('/profile_or_connect', (req, res) => {
 
 app.post('/signup', (req, res) => {
   appendToFile('users.json', req.body);
+  const filePath = path.join(__dirname,"webpage", 'profile', req.body.username +'.html' );  
+  fs.writeFile(filePath, req.body.username, (err) => {
+    if (err) {
+      console.error('Erreur lors de l\'écriture du fichier :', err);
+    } else {
+      console.log('Fichier écrit avec succès :', filePath);
+    }
+  });  
   res.cookie("username", req.body.username);
-  res.redirect("/?file=profile.html");
+  res.redirect("/?file=profile/"+req.body.username+".html");
 });
 
 
