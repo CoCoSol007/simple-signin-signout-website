@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         button.addEventListener("click", function () {
             // Redirection vers le fichier HTML en utilisant l'ID
-            window.location.href = "/?file=articles/" + item.id + ".html";
+            window.location.href = "/?file=articles/" + item.id + "/"+ item.id + ".html";
         });
 
         button.appendChild(document.createTextNode(item.autor));
