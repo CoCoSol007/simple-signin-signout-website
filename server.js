@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/profile_or_connect', (req, res) => {
-  if (1==1){
+  if (req.cookies.username == undefined){
     res.redirect("/?file=sign/sign_in.html");
   } else {
     res.redirect("/?file=profile.html");
