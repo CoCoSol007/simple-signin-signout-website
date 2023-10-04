@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+body {
+    background-color: #e7e7e7; /* Fond blanc */
+    font-family: 'Quicksand', sans-serif;
+    font-size: large;
+    align-content: center;
+    color: #000000; /* Texte plus clair */
+}
+
+a {
+    color: #202020; /* Couleur de lien légèrement plus foncée */
+}
+
+
+
+#main {
+    width: 800px;
+    margin: 0 auto;
+    margin-top: 100px;
+    border-radius: 4px;
+    background: #fff; /* Fond de contenu blanc */
+    text-align: center;
+    align-content: center;
+    padding-bottom: 50px;
+    padding-top: 50px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+}
+
+h1 {
+    padding-bottom: 10px;
+}
+
+#article {
+    margin: auto;
+    width: 90%;
+    text-align: left;
+    border-radius: 5px;
+    border: 1px solid black;
+    padding-left: 10px;
+    background: #e7e7e7; /* Fond de l'article blanc */
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    width: 100%;
+}
+
+button {
+    border-width: 1px;
+    border-bottom: 0px;
+    border-right: 0px;
+    border-left: 0px;
+    margin: 10px;
+    cursor: pointer;
+    font-size: 15px;
+    font-family: Arial;
+    width: 90%;
+    border-color: #000000; /* Bordure de bouton de la même couleur que le texte */
+    transition: 100ms;
+    background: #fff; /* Fond de bouton blanc */
+    color: #000000; /* Texte plus clair */
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+button:hover {
+    width: 95%;
+    background: #f0f0f0; /* Fond de bouton légèrement plus foncé au survol */
+}
