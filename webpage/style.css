@@ -47,6 +47,10 @@ footer {
     width: 100%;
 }
 
+#profile{
+    text-align: end;
+}
+
 button {
     border-width: 1px;
     border-bottom: 0px;
