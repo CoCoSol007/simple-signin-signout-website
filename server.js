@@ -30,6 +30,28 @@ app.post('/signup', (req, res) => {
   res.redirect("/?file=profile.html");
 });
 
+app.post('/signin', (req, res) => {
+  console.log(req.body)
+  const username = req.body.username;
+  const password = req.body.password;
+
+
+  const usersData = JSON.parse(fs.readFileSync("users.json"));
+
+  let userFound = false;
+  for (const user of usersData) {
+    if (user.username == username && user.password == password) {
+      userFound = true;
+      break;
+    }
+  }
+  if (userFound) {
+    res.redirect("/?file=profile.html");
+  } else {
+    res.status(401).send('Informations de connexion incorrectes');
+  }
+});
+
 function appendToFile(fileName, jsonObj) {
   try {
       // Load the current content of the file if it exists
@@ -50,6 +72,7 @@ function appendToFile(fileName, jsonObj) {
       console.error('Error appending data to the file:', err);
   }
 }
+
 
 
 
