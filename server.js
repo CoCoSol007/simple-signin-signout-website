@@ -4,8 +4,10 @@ const path = require('path');
 const fs = require('fs');
 const bodyParser = require('body-parser');
 const port = 80;
+const cookieParser = require('cookie-parser');
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // get web page  (http://localhost:3000/?name=FilePath)
 app.get('/', (req, res) => {
@@ -27,11 +29,19 @@ app.get('/profile_or_connect', (req, res) => {
 
 app.post('/signup', (req, res) => {
   appendToFile('users.json', req.body);
+  res.cookie("username", req.body.username);
   res.redirect("/?file=profile.html");
 });
 
+
+app.get('/cookies', (req,res) => {
+  const cookie = req.cookies;
+  res.send(cookie);
+
+}) ;
+
+
 app.post('/signin', (req, res) => {
-  console.log(req.body)
   const username = req.body.username;
   const password = req.body.password;
 
@@ -45,10 +55,13 @@ app.post('/signin', (req, res) => {
       break;
     }
   }
+  
   if (userFound) {
+    res.cookie("username", req.body.username);
+    res.setHeader('Content-Type', 'text/html');
     res.redirect("/?file=profile.html");
   } else {
-    res.status(401).send('Informations de connexion incorrectes');
+    res.send('Informations de connexion incorrectes');
   }
 });
 
