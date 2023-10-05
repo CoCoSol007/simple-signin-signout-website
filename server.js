@@ -132,7 +132,8 @@ app.post('/new_article', (req, res) => {
   const title = req.body.title;
   const text = req.body.text;
   const username = req.cookies.username;
-  const id = username + '.' + title
+  const id = Date.now()
+  console.log(id)
   const json = {
     "autor": username,
     "title": title,
@@ -219,7 +220,9 @@ app.get("/articles/:id", (req, res) => {
     
             <button onclick="window.location.href='/'"><h2>HOME</h2></button><br>
             <div id="article">
-              ${text}
+              <pre>
+${text}
+              </pre>
             </div>
         </div>
     </body>
