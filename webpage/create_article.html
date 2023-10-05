@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Nouvel Article</title>
+    <link rel="stylesheet" href="?file=sign/style.css">
+  </head>
+  <body>
+    <section>
+      <div class="signin">
+        <div class="content">
+          <h2>Nouvel Article</h2>
+          <form class="form" method="POST" action="/new_article">
+            <div class="inputBox">
+                <label for="title">Titre de l'article:</label>
+                <input type="text" id="title" name="title" required>
+              </div>
+              <div class="inputBox">
+                <label for="text">Article:</label>
+                <textarea id="text" name="text" rows="4" cols="31" required></textarea>
+              </div>
+              <div class="inputBox">
+                <input type="submit" value="Ajouter">
+              </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

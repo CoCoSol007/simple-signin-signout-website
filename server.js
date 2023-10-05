@@ -97,6 +97,9 @@ app.get("/profile/:profileName", (req,res)=> {
               const text = document.createElement("h3");
               text.textContent = "NEW ARTICLE";
               btn.appendChild(text);
+              btn.addEventListener("click", function () {
+                window.location.href = "/?file=create_article.html";
+              });
               document.getElementById("new-article").appendChild(btn);
             };
             </script>
@@ -123,6 +126,22 @@ app.get('/cookies', (req,res) => {
 
 }) ;
 
+
+app.post('/new_article', (req, res) => {
+  const title = req.body.title;
+  const text = req.body.text;
+  const username = req.cookies.username;
+  const id = 4
+  const json = {
+    "autor": username,
+    "title": title,
+    "text": text,
+    "id": id
+  }
+  appendToFile("webpage/data.json",json)
+
+  res.redirect("/profile/" + username);
+});
 
 app.post('/signin', (req, res) => {
   const username = req.body.username;
