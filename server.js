@@ -82,8 +82,6 @@ app.get("/profile/:profileName", (req,res)=> {
                           // Redirection vers le fichier HTML en utilisant l'ID
                           window.location.href = "/?file=articles/" + item.id + "/"+ item.id + ".html";
                       });
-              
-                      button.appendChild(document.createTextNode(item.autor));
                       buttonsContainer.appendChild(button);
                     }
                 });
