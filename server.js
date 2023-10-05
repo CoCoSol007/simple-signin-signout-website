@@ -90,8 +90,18 @@ app.get("/profile/:profileName", (req,res)=> {
             })
             });
             </script>
-          </div>
-      </div>
+            </div>
+            </div>
+            <div id = "new-article"></div>
+            <script>
+            if ("${req.cookies.username}" == "${profileName}"){
+              const btn = document.createElement("button");
+              const text = document.createElement("h3");
+              text.textContent = "NEW ARTICLE";
+              btn.appendChild(text);
+              document.getElementById("new-article").appendChild(btn);
+            };
+            </script>
       <footer>
           <a href="https://github.com/CoCoSol007">GitHub</a> - <a
               href="mailto:solois.corentin@gmail.com?subject=By Blog">E-mail</a>

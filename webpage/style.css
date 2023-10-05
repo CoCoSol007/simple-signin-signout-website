@@ -41,14 +41,26 @@ h1 {
 }
 
 footer {
-    position: absolute;
     bottom: 0;
+    padding-bottom: 0%;
     text-align: center;
     width: 100%;
 }
 
 #profile{
     text-align: end;
+}
+
+#new-article{
+    width: 800px;
+    margin: 0 auto;
+    margin-top: 10px;
+    text-align: center;
+    align-content: center;
+}
+
+#new-article button{
+    background-color: rgba(145, 145, 145, 0.295);
 }
 
 button {
