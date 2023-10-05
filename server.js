@@ -29,18 +29,27 @@ app.get('/profile_or_connect', (req, res) => {
 })
 
 app.post('/signup', (req, res) => {
-  appendToFile('users.json', req.body);
-  const filePath = path.join(__dirname,"webpage", 'profile', req.body.username +'.html' );  
-  fs.writeFile(filePath, req.body.username, (err) => {
-    if (err) {
-      console.error('Erreur lors de l\'écriture du fichier :', err);
+  
+    const usersData = JSON.parse(fs.readFileSync("users.json"));
+    const article = usersData.find(item => item.username == req.body.username);
+
+    if (article) {
+      res.redirect("/?file=sign/sign_in.html")
     } else {
-      console.log('Fichier écrit avec succès :', filePath);
+      appendToFile('users.json', req.body);
+      const filePath = path.join(__dirname,"webpage", 'profile', req.body.username +'.html' );  
+      fs.writeFile(filePath, req.body.username, (err) => {
+        if (err) {
+          console.error('Erreur lors de l\'écriture du fichier :', err);
+        } else {
+          console.log('Fichier écrit avec succès :', filePath);
+        }
+      });  
+      res.cookie("username", req.body.username);
+      res.redirect("/profile/"+req.body.username);
     }
-  });  
-  res.cookie("username", req.body.username);
-  res.redirect("/profile/"+req.body.username);
-});
+ })
+
 
 // http://0.0.0.0/profile/CoCoSol
 app.get("/profile/:profileName", (req,res)=> {
@@ -133,7 +142,6 @@ app.post('/new_article', (req, res) => {
   const text = req.body.text;
   const username = req.cookies.username;
   const id = Date.now()
-  console.log(id)
   const json = {
     "autor": username,
     "title": title,
@@ -174,9 +182,12 @@ function appendToFile(fileName, jsonObj) {
       // Load the current content of the file if it exists
       const existingData = JSON.parse(fs.readFileSync(fileName));
 
+      existingData.reverse();
+
       // Append the new JSON object to the array
       existingData.push(jsonObj);
 
+      existingData.reverse();
       // Convert the updated array to JSON format
       const updatedDataJSON = JSON.stringify(existingData, null, 2);
 
@@ -220,9 +231,7 @@ app.get("/articles/:id", (req, res) => {
     
             <button onclick="window.location.href='/'"><h2>HOME</h2></button><br>
             <div id="article">
-              <pre>
-${text}
-              </pre>
+              <pre>${text}</pre>
             </div>
         </div>
     </body>
