@@ -41,6 +41,71 @@ app.post('/signup', (req, res) => {
   res.redirect("/?file=profile/"+req.body.username+".html");
 });
 
+// http://0.0.0.0/profile/CoCoSol
+app.get("/profile/:profileName", (req,res)=> {
+  const  profileName = req.params.profileName
+  const contenuHTML = `
+  <!DOCTYPE html>
+  <html>
+  
+  <head id="head">
+      <meta charset="UTF-8">
+      <title>Blog</title>
+      <link rel="stylesheet" href="/?file=style.css">
+  </head>
+  
+  <body>
+      <div id ="profile"><a href="/profile_or_connect">Profile</a></div>
+      <div id="main">
+          <div id="title">
+              <h2>${profileName}</h2>
+          </div>
+          <div id="buttons-container">
+              <script>
+              document.addEventListener("DOMContentLoaded", function () {
+                fetch("/?file=data.json").then(response => response.json()).then(jsonData => {
+                
+                const buttonsContainer = document.getElementById("buttons-container");
+            
+                // Parcours du tableau JSON et création des boutons
+                jsonData.forEach(item => {
+                    if (item.autor == ${profileName}) {
+
+                      const button = document.createElement("button");
+                      const text = document.createElement("h3");
+                      text.textContent = item.title;
+                      button.appendChild(text);
+              
+                      button.addEventListener("click", function () {
+                          // Redirection vers le fichier HTML en utilisant l'ID
+                          window.location.href = "/?file=articles/" + item.id + "/"+ item.id + ".html";
+                      });
+              
+                      button.appendChild(document.createTextNode(item.autor));
+                      buttonsContainer.appendChild(button);
+                    }
+                });
+            })
+            });
+            </script>
+          </div>
+      </div>
+      <footer>
+          <a href="https://github.com/CoCoSol007">GitHub</a> - <a
+              href="mailto:solois.corentin@gmail.com?subject=By Blog">E-mail</a>
+      </footer>
+  </body>
+  
+  </html>
+  `;
+
+
+
+  // Envoyez le fichier en réponse à la requête HTTP
+  res.setHeader('Content-Type', 'text/html');
+  res.send(contenuHTML);
+});
+
 
 app.get('/cookies', (req,res) => {
   const cookie = req.cookies;
