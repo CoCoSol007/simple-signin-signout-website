@@ -23,7 +23,7 @@ app.get('/profile_or_connect', (req, res) => {
   if (req.cookies.username == undefined){
     res.redirect("/?file=sign/sign_in.html");
   } else {
-    res.redirect("/?file=profile.html");
+    res.redirect("/?file=profile/"+req.cookies.username +".html");
   }
 })
 
@@ -67,9 +67,9 @@ app.post('/signin', (req, res) => {
   if (userFound) {
     res.cookie("username", req.body.username);
     res.setHeader('Content-Type', 'text/html');
-    res.redirect("/?file=profile.html");
+    res.redirect("/?file=profile/"+req.body.username+".html");
   } else {
-    res.send('Informations de connexion incorrectes');
+    res.redirect("/?file=sign/sign_up.html");
   }
 });
 
