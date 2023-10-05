@@ -23,7 +23,7 @@ app.get('/profile_or_connect', (req, res) => {
   if (req.cookies.username == undefined){
     res.redirect("/?file=sign/sign_in.html");
   } else {
-    res.redirect("/?file=profile/"+req.cookies.username +".html");
+    res.redirect("/profile/"+req.cookies.username);
   }
 })
 
@@ -38,7 +38,7 @@ app.post('/signup', (req, res) => {
     }
   });  
   res.cookie("username", req.body.username);
-  res.redirect("/?file=profile/"+req.body.username+".html");
+  res.redirect("/profile/"+req.body.username);
 });
 
 // http://0.0.0.0/profile/CoCoSol
@@ -55,10 +55,12 @@ app.get("/profile/:profileName", (req,res)=> {
   </head>
   
   <body>
-      <div id ="profile"><a href="/profile_or_connect">Profile</a></div>
+      <div id ="profile"><a href="/profile_or_connect">Profile</a></div><br>
+      
       <div id="main">
+        <button onclick="window.location.href='/'"><h3>HOME</h3></button><br>
           <div id="title">
-              <h2>${profileName}</h2>
+              <h1>${profileName}</h1>
           </div>
           <div id="buttons-container">
               <script>
@@ -69,7 +71,7 @@ app.get("/profile/:profileName", (req,res)=> {
             
                 // Parcours du tableau JSON et création des boutons
                 jsonData.forEach(item => {
-                    if (item.autor == ${profileName}) {
+                    if (item.autor == "${profileName}") {
 
                       const button = document.createElement("button");
                       const text = document.createElement("h3");
@@ -132,7 +134,7 @@ app.post('/signin', (req, res) => {
   if (userFound) {
     res.cookie("username", req.body.username);
     res.setHeader('Content-Type', 'text/html');
-    res.redirect("/?file=profile/"+req.body.username+".html");
+    res.redirect("/profile/"+req.body.username);
   } else {
     res.redirect("/?file=sign/sign_up.html");
   }
