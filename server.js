@@ -4,6 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const bodyParser = require('body-parser');
 const port = 80;
+const axios = require('axios');
 const cookieParser = require('cookie-parser');
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -80,7 +81,7 @@ app.get("/profile/:profileName", (req,res)=> {
               
                       button.addEventListener("click", function () {
                           // Redirection vers le fichier HTML en utilisant l'ID
-                          window.location.href = "/?file=articles/" + item.id + "/"+ item.id + ".html";
+                          window.location.href = "/articles/" + item.id ;
                       });
                       buttonsContainer.appendChild(button);
                     }
@@ -131,7 +132,7 @@ app.post('/new_article', (req, res) => {
   const title = req.body.title;
   const text = req.body.text;
   const username = req.cookies.username;
-  const id = 4
+  const id = username + '.' + title
   const json = {
     "autor": username,
     "title": title,
@@ -190,6 +191,53 @@ function appendToFile(fileName, jsonObj) {
 
 
 
+app.get("/articles/:id", (req, res) => {
+  const id = req.params.id;
+  axios.get("/?file=data.json")
+  .then(response => {
+    const jsonData = response.data;
+    const article = jsonData.find(item => item.id == id);
+
+    if (article) {
+      const text = article.text
+      const title = article.title
+      const autor = article.autor
+
+      html_contnent= `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>${title}</title>
+        <link rel="stylesheet" href="/?file=style.css">
+    </head>
+    <body>
+        <div id="main">
+            <h1>${title}</h1>
+            <h4>${autor}</h4>
+    
+            <button onclick="window.location.href='/'"><h2>HOME</h2></button><br>
+            <div id="article">
+              ${text}
+            </div>
+        </div>
+    </body>
+    </html>
+    
+      `
+      res.send(html_contnent);
+
+    } else {
+      res.status(404).send("Article not found");
+    }
+  })
+  .catch(error => {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  });
+
+});
 
 
 app.listen(port, () => {
