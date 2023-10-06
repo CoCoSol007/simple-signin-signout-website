@@ -37,14 +37,6 @@ app.post('/signup', (req, res) => {
       res.redirect("/?file=sign/sign_in.html")
     } else {
       appendToFile('users.json', req.body);
-      const filePath = path.join(__dirname,"webpage", 'profile', req.body.username +'.html' );  
-      fs.writeFile(filePath, req.body.username, (err) => {
-        if (err) {
-          console.error('Erreur lors de l\'écriture du fichier :', err);
-        } else {
-          console.log('Fichier écrit avec succès :', filePath);
-        }
-      });  
       res.cookie("username", req.body.username);
       res.redirect("/profile/"+req.body.username);
     }
@@ -234,10 +226,22 @@ app.get("/articles/:id", (req, res) => {
               <pre>${text}</pre>
             </div>
         </div>
+        <div id="new-article"></div>
+        <script>
+            if ("${req.cookies.username}" != undefined){
+              const btn = document.createElement("button");
+              btn.textContent = "Comment";
+              btn.addEventListener("click", function () {
+                window.location.href='/?file=comment.html'
+              });
+              document.getElementById("new-article").appendChild(btn);
+            };
+            </script>
     </body>
     </html>
     
       `
+      res.cookie("article", id)
       res.send(html_contnent);
 
     } else {
@@ -250,6 +254,12 @@ app.get("/articles/:id", (req, res) => {
   });
 
 });
+
+app.post("/comment_article",(req,res) => {
+  console.log(req.body.comment)
+  res.redirect("/articles/"+ req.cookies.article)
+
+})
 
 
 app.listen(port, () => {
