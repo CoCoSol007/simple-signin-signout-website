@@ -262,10 +262,12 @@ app.get("/articles/:id", (req, res) => {
 
               
               const btn = document.createElement("button");
-              btn.textContent = "Comment";
+              const h2 =  document.createElement("h2");
+              h2.textContent = "Comment";
               btn.addEventListener("click", function () {
                 window.location.href='/?file=comment.html'
               });
+              btn.appendChild(h2)
               document.getElementById("new-article").appendChild(btn);
             };
             </script>
