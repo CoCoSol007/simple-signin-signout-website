@@ -47,6 +47,14 @@ footer {
     width: 100%;
 }
 
+#comment {
+    padding-top: 50px;
+    margin: auto;
+    width: 90%;
+    text-align: left;
+    padding-left: 10px;
+  }
+
 #profile{
     text-align: end;
 }

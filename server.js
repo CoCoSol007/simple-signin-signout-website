@@ -138,7 +138,8 @@ app.post('/new_article', (req, res) => {
     "autor": username,
     "title": title,
     "text": text,
-    "id": id
+    "id": id,
+    "comment": []
   }
   appendToFile("webpage/data.json",json)
 
@@ -206,6 +207,7 @@ app.get("/articles/:id", (req, res) => {
       const text = article.text
       const title = article.title
       const autor = article.autor
+      const comments = article.comment
 
       html_contnent= `
     <!DOCTYPE html>
@@ -224,11 +226,41 @@ app.get("/articles/:id", (req, res) => {
             <button onclick="window.location.href='/'"><h2>HOME</h2></button><br>
             <div id="article">
               <pre>${text}</pre>
-            </div>
+            </div> 
+
+            <div id = "comment-container"></div>
+
+            <script>
+              const comments = ${JSON.stringify(comments)}; // Assurez-vous de bien formater comments comme une chaîne JSON valide
+              const container = document.getElementById('comment-container'); // Remplacez 'container' par l'ID de votre conteneur HTML
+
+              for (const comment of comments) {
+                  // Créer un élément div pour l'auteur
+                  const authorDiv = document.createElement('div');
+                  authorDiv.id = 'comment';
+                  authorDiv.textContent = comment[0];
+
+                  // Créer un élément div pour le commentaire avec une balise <pre>
+                  const commentDiv = document.createElement('div');
+                  commentDiv.id = 'article';
+                  const preElement = document.createElement('pre');
+                  preElement.textContent = comment[1];
+
+                  // Ajouter les éléments au conteneur
+                  commentDiv.appendChild(preElement);
+                  container.appendChild(authorDiv);
+                  container.appendChild(commentDiv);
+              }
+          </script>
+
+            
+
         </div>
         <div id="new-article"></div>
         <script>
-            if ("${req.cookies.username}" != undefined){
+            if ("${req.cookies.username}" != "undefined"){
+
+              
               const btn = document.createElement("button");
               btn.textContent = "Comment";
               btn.addEventListener("click", function () {
@@ -255,11 +287,21 @@ app.get("/articles/:id", (req, res) => {
 
 });
 
-app.post("/comment_article",(req,res) => {
-  console.log(req.body.comment)
-  res.redirect("/articles/"+ req.cookies.article)
+app.post("/comment_article", (req, res) => {
+  console.log(req.body.comment);
+  const id_article = req.cookies.article;
 
-})
+  const existingData = JSON.parse(fs.readFileSync(__dirname + "/webpage/data.json"));
+  const article = existingData.find(item => item.id == id_article);     
+  article.comment.push([req.cookies.username,req.body.comment]);
+
+        
+  const updatedDataJSON = JSON.stringify(existingData, null, 2);
+
+  fs.writeFileSync(__dirname + "/webpage/data.json", updatedDataJSON);
+
+  res.redirect("/articles/" + id_article);
+});
 
 
 app.listen(port, () => {
