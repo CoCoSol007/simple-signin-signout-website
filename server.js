@@ -219,11 +219,12 @@ app.get("/articles/:id", (req, res) => {
         <link rel="stylesheet" href="/?file=style.css">
     </head>
     <body>
+    <div id ="profile"><a href="/profile_or_connect">Profile</a></div><br>
         <div id="main">
+        <button onclick="window.location.href='/'"><h2>HOME</h2></button><br>
             <h1>${title}</h1>
-            <h4>${autor}</h4>
+            <h4>by ${autor}</h4>
     
-            <button onclick="window.location.href='/'"><h2>HOME</h2></button><br>
             <div id="article">
               <pre>${text}</pre>
             </div> 
