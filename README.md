@@ -1,2 +1,4 @@
 # website
-This is an personal website where you can connect post article and comment
+This a simple website made in JaavaScript where you can
+- sign in/sign out
+- post and comment articles
