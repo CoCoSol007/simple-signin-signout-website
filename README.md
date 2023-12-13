@@ -24,7 +24,7 @@ http://localhost
 
 you can sign in
 ```bash
-http://localhost/login
+http://localhost/signin
 ```
 
 or sign up
